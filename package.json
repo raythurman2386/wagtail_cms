@@ -1,0 +1,10 @@
+{
+  "name": "recipe_cms",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "postcss css/tailwind.css -o config/static/css/tailwind-output.css"
+  },
+  "author": "",
+  "license": "ISC"
+}

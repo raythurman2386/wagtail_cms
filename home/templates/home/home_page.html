@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    {{ page.body|richtext }}
+    <a href="/blog">Blog</a>
+    <a href="/shop">Shop</a>
+{% endblock %}
