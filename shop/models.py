@@ -1,6 +1,6 @@
+from django import forms
 from django.db import models
-
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.models import Page, Orderable, ClusterableModel
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
@@ -26,6 +26,7 @@ class ProductPage(Page):
     sku = models.CharField(max_length=255)
     short_description = models.TextField(blank=True, null=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
+    categories = ParentalManyToManyField('shop.ShopCategory', blank=True)
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -35,10 +36,13 @@ class ProductPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('sku'),
-        FieldPanel('price'),
         FieldPanel('image'),
-        FieldPanel('short_description'),
+        MultiFieldPanel([
+            FieldPanel(
+                'categories', widget=forms.CheckboxSelectMultiple),
+            FieldPanel('sku'),
+            FieldPanel('price'),
+            FieldPanel('short_description'),], heading="Product Information"),
         InlinePanel('custom_fields', label='Custom Fields')
     ]
 

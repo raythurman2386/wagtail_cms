@@ -30,11 +30,11 @@
         {% bootstrap_javascript %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %} container">
+    <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-        <nav class="navbar bg-success py-2">
-            <div class="container-fluid">
-                <a class="navbar-brand link-light" href="/">Navbar</a>
+        <nav class="navbar container-fluid bg-success py-2">
+            <div class="container">
+                <a class="navbar-brand link-light" href="/">Home</a>
                 <ul class="nav d-flex">
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link link-light" href="/blog">Blog</a></li>
@@ -42,13 +42,15 @@
                     <li class="nav-item"><a class="nav-link link-light" href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link link-light" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link link-light" href="{% url 'register' %}">Sign Up</a></li>
                     {% endif %}
                 </ul>
             </div>
 
         </nav>
+        <div class="main container">
         {% block content %}{% endblock %}
-
+        </div>
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/recipe_cms.js' %}"></script>
     </body>
