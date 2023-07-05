@@ -25,11 +25,28 @@
 
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/recipe_cms.css' %}">
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %} container">
         {% wagtailuserbar %}
+        <nav class="navbar bg-success py-2">
+            <div class="container-fluid">
+                <a class="navbar-brand link-light" href="/">Navbar</a>
+                <ul class="nav d-flex">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link link-light" href="/blog">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link link-light" href="/shop">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link link-light" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link link-light" href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
 
+        </nav>
         {% block content %}{% endblock %}
 
         {# Global javascript #}

@@ -6,10 +6,10 @@
 
 {% block content %}
     <h1>{{ page.title }}</h1>
-    <p class="meta">{{ product.sku }}</p>
-    <p class="meta">{{ product.price }}</p>
+    <p class="meta">{{ page.sku }}</p>
+    <p class="meta">{{ page.price }}</p>
 
-    <div class="intro">{{ product.short_description }}</div>
+    <div class="intro">{{ page.short_description }}</div>
 
 
     <p><a href="{{ page.get_parent.url }}">Return to shop</a></p>

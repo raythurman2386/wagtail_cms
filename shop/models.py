@@ -1,12 +1,11 @@
 from django.db import models
 
 from modelcluster.fields import ParentalKey
-
-from wagtail.models import Page, Orderable
+from wagtail.models import Page, Orderable, ClusterableModel
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.contrib.settings.models import BaseSiteSetting
-from wagtail.contrib.settings.registry import register_setting
+from wagtail.snippets.models import register_snippet
 
 
 class ShopIndexPage(Page):
@@ -56,9 +55,52 @@ class ProductCustomField(Orderable):
     ]
 
 
-@register_setting
-class SnipcartSettings(BaseSiteSetting):
-    api_key = models.CharField(
-        max_length=255,
-        help_text='Your Snipcart public API key'
+@register_snippet
+class ShopCategory(models.Model):
+    name = models.CharField(max_length=250)
+    icon = models.ForeignKey(
+        'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('icon'),
+    ]
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'shop categories'
+
+
+# class CartItem(Orderable):
+#     name = models.CharField(max_length=255)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     quantity = models.PositiveIntegerField()
+
+#     panels = [
+#         FieldPanel('name'),
+#         FieldPanel('price'),
+#         FieldPanel('quantity'),
+#     ]
+
+
+# @register_snippet
+# class Cart(ClusterableModel):
+#     cart_item = models.ManyToManyField(CartItem, related_name='Cart Items')
+
+#     def add_to_cart(self, product, quantity=1):
+#         cart_item, created = CartItem.objects.get_or_create(
+#             cart=self, product=product)
+#         cart_item.quantity += quantity
+#         cart_item.save()
+
+#     def calculate_subtotal(self):
+#         subtotal = 0
+#         for item in self.items.all():
+#             subtotal += item.price * item.quantity
+#         self.subtotal = subtotal
+
+#     def calculate_total(self):
+#         self.total = self.subtotal

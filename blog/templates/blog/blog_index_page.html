@@ -5,6 +5,7 @@
 {% block body_class %}template-blogindexpage{% endblock %}
 
 {% block content %}
+<div class="home my-2 jumbotron">
     <h1>{{ page.title }}</h1>
 
     <div class="intro">{{ page.intro|richtext }}</div>
@@ -21,5 +22,5 @@
             <p>{{ post.intro }}</p>
         {% endwith %}
     {% endfor %}
-
+</div>
 {% endblock %}
